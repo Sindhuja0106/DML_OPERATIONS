@@ -1,0 +1,189 @@
+
+----Creating the Table---------------------------------------------------
+import mysql.connector as c
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("""
+   create table cities (
+        city_id int primary key,
+        city_name varchar(100),
+        country varchar(100),
+        population int
+        
+    )
+""")
+
+mydb.commit()
+
+print("Table 'cities' created successfully.")
+
+
+
+
+
+-------------Insert-------------------------------------------
+import mysql.connector as c
+
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+
+sql = "insert into cities (city_id, city_name, country, population) values (%s, %s, %s, %s)"
+
+
+values = [
+    (1, 'New York', 'USA', 8419600),
+    (2, 'London', 'UK', 8982000),
+    (3, 'Tokyo', 'Japan', 13929286),
+    (4, 'Paris', 'France', 2148327)
+]
+
+
+mycursor.executemany(sql, values)
+
+mydb.commit()
+
+print(f"{mycursor.rowcount} records inserted successfully.")
+
+
+--------Update------------------------------------------------------------------
+import mysql.connector as c
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+sql = "update cities set population = %s where city_id = %s"
+
+values = (8500000, 1) 
+
+
+mycursor.execute(sql, values)
+
+mydb.commit()
+
+
+print(f"{mycursor.rowcount} record(s) updated successfully.")
+
+
+---------retreival of cities details  between 80 and 90 lakh of population-----------------------------------------------------
+
+import mysql.connector as c
+
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("select * from cities where population between 8500000 and 9000000")
+
+stu = mycursor.fetchall()
+
+
+for s in stu:
+    print(s)
+
+print("Rows fetched successfully from 'cities'.")
+
+
+-----------retrievl city details based on city name in Ascending order-------------------------------
+
+import mysql.connector as c
+
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("select * from cities order by city_name asc ")
+
+stu = mycursor.fetchall()
+
+
+for s in stu:
+    print(s)
+
+print("Rows fetched successfully from 'cities'.")
+
+
+------Displaying the details of cities table------------------------
+
+import mysql.connector as c
+
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("select * FROM cities")
+
+stu = mycursor.fetchall()
+
+
+for s in stu:
+    print(s)
+
+print("Rows fetched successfully from 'cities'.")
+
+
+
+
+
+------------Delete based on city id------------------------------------------------------------
+import mysql.connector as c
+
+mydb = c.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="cvr"
+)
+
+mycursor = mydb.cursor()
+
+sql = "delete from cities where city_id = %s"
+
+city_id_to_delete = 2
+
+
+mycursor.execute(sql, (city_id_to_delete,))
+
+mydb.commit()
+
+print(f"{mycursor.rowcount} record(s) deleted successfully.")
+
